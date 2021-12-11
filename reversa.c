@@ -1,16 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-void reverse(char *str){
-    char* temp;
-    while(*str != '\0'){
-        
-    }
+void reversa(char *str){
+    
 }
 
 int main (){
     char cadena[20];
     gets(cadena);
-    reverse(cadena);
+    reversa(cadena);
     return 0;
 }
