@@ -23,6 +23,10 @@ int numeroInternos(struct nodo* ref);
 int sumaTotal(struct nodo* ref);
 int sumaHojas(struct nodo* ref);
 int sumaInternos(struct nodo* ref);
+void mayores(struct nodo* ref, int num);
+void menores(struct nodo* ref, int num);
+int sumaMayores(struct nodo* ref, int num);
+int sumaMenores(struct nodo* ref, int num);
 
 int main(){
     int dato;
@@ -31,6 +35,9 @@ int main(){
     referencia = &raiz;
     for(;;)
     switch(menu()){
+        case 0:
+        exit(0);
+        break;
         case 1: 
         printf("Valor: ");
         scanf("%d", &dato);
@@ -90,8 +97,30 @@ int main(){
         case 14:
         printf("La suma de nodos internos es: %d\n\n", sumaInternos(*referencia));
         break;
+        case 15:
+        printf("Valor: ");
+        scanf("%d", &dato);
+        mayores(*referencia, dato);
+        printf("\n");
+        break;
+        case 16:
+        printf("Valor: ");
+        scanf("%d", &dato);
+        menores(*referencia, dato);
+        printf("\n");
+        break;
+        case 17:
+        printf("Valor: ");
+        scanf("%d", &dato);
+        printf("La suma de nodos mayores a %d es: %d\n\n", dato, sumaMayores(*referencia, dato));
+        break;
+        case 18:
+        printf("Valor: ");
+        scanf("%d", &dato);
+        printf("La suma de nodos menores a %d es: %d\n\n", dato, sumaMenores(*referencia, dato));
+        break;
         default:
-        exit(0);
+        printf("Opcion no valida\n\n");
         break;
     }
     return 0;
@@ -99,8 +128,9 @@ int main(){
 
 int menu(){
     int num;
-    printf("1. Ingresar dato\n2. Buscar nodo\n3. Imprimir arbol\n4. Preorden\n5. Postorden\n6. Inorden\n7. Minimo\n8. Maximo\n9. Numero de nodos\n10. Numero de hojas\n11. Numero de nodos internos\n12. Suma Total\n13. Suma de hojas\n14. Suma de internos\nPresione cualquier otro para salir\n");
+    printf("0. Salir\t\t10. Numero de hojas\n1. Ingresar dato\t11. Numero de nodos internos\n2. Buscar nodo\t\t12. Suma total\n3. Imprimir arbol\t13. Suma de hojas\n4. Preorden\t\t14. Suma de internos\n5. Postorden\t\t15. Nodos mayores a\n6. Inorden\t\t16. Nodos menores a\n7. Minimo\t\t17. Suma de mayores a\n8. Maximo\t\t18. Suma de menores a\n9. Numero de nodos\n");
     scanf("%d", &num);
+    printf("\n");
     return num;
 }
 
@@ -236,5 +266,51 @@ int sumaInternos(struct nodo* ref){
     if(ref->der == NULL && ref->izq == NULL)
     return 0;
     i = ref->dato + sumaInternos(ref->izq) + sumaInternos(ref->der);
+    return i;
+}
+
+void mayores(struct nodo* ref, int num){
+    if(ref == NULL)
+    return;
+    else if(ref->dato > num){
+        mayores(ref->izq, num);
+        printf("%d\n", ref->dato);
+        mayores(ref->der, num);
+    } 
+    else
+    mayores(ref->der, num);
+}
+
+void menores(struct nodo* ref, int num){
+    if(ref == NULL)
+    return;
+    else if(ref->dato < num){
+        menores(ref->izq, num);
+        printf("%d\n", ref->dato);
+        menores(ref->der, num);
+    } 
+    else
+    menores(ref->izq, num);
+}
+
+int sumaMayores(struct nodo* ref, int num){
+    int i;
+    if(ref == NULL)
+    return 0;
+    else if(ref->dato > num)
+    i = ref->dato + sumaMayores(ref->izq, num) + sumaMayores(ref->der, num);
+    else
+    i = sumaMayores(ref->der, num);
+    return i;
+}
+
+int sumaMenores(struct nodo* ref, int num){
+    int i;
+    if(ref == NULL)
+    return 0;
+    else if(ref->dato < num)
+    i = ref->dato + sumaMenores(ref->izq, num) + sumaMenores(ref->der, num); 
+    else
+    i = sumaMenores(ref->izq, num);
     return i;
 }
